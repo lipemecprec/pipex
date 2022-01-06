@@ -6,7 +6,7 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:33:57 by faguilar          #+#    #+#             */
-/*   Updated: 2022/01/05 20:08:30 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/01/06 16:54:06 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,84 @@
 
 #include "stdio.h"
 
-// typedef struct s_cmd
-// {
-// 	char *path;
-// 	char **cmd_array;
-// } 				t_cmd;
+typedef struct s_cmd
+{
+	char *infile;
+	char *outfile;
+	char *path;
+	char **cmd_array;
+} 				t_cmd;
 
-// t_cmd	new_cmd(char *cmd_str, char **path)
-// {
-// 	t_cmd	cmd;
-// 	char	*try;
-// 	char	**cmd_arr;
+t_cmd	new_cmd(char *cmd_str, char **path)
+{
+	t_cmd	cmd;
+	char	*try;
+	char	*temp;
 
-// 	ft_putstr_fd(cmd_str, 1);
-// 	ft_putstr_fd("\n", 1);
-// 	cmd_arr = ft_split(cmd_str, ' ');
-	
-// 	while (*path)
-// 	{
-// 		try = ft_strjoin(*path, "/");
-// 		try = ft_strjoin(try, cmd_arr[0]);
-// 		ft_putstr_fd(try, 1);
-// 		ft_putstr_fd("\n", 1);
-// 		// try = "/usr/bin/ping";
-// 		if (access(try, X_OK) == 0)
-// 			break;
-// 		path++;
-// 	}
-// 	cmd.path = try;
-// 	return (cmd);
-// }
+	cmd.cmd_array = ft_split(cmd_str, ' ');
+	while (*path)
+	{
+		temp = ft_strjoin(*path, "/");
+		try = ft_strjoin(temp, *cmd.cmd_array);
+		free(temp);
+		if (access(try, X_OK) == 0)
+		{
+			cmd.path = try;
+			free(try);
+			break;
+		}
+		free(try);
+		path++;
+	}
+	// int	i = 0;
+	// while (cmd.cmd_array[i])
+	// {
+	// 	free(cmd.cmd_array[i]);
+	// 	i++;
+	// }
+	// free(cmd.cmd_array);
+	return (cmd);
+}
+
+void	free_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
+	free(arr);
+	arr = NULL;
+}
 
 char	**get_envpath(char *envp[])
 {
 	char	**path;
+	char	*temp;
 
 	path = NULL;
 	while (*envp)
 	{
-		if (ft_strnstr(*envp, "PATH", 5))
-			path = ft_split(*envp, ':');
+		if (ft_strnstr(*envp, "PATH=", 5))
+		{
+			temp = ft_strrchr(*envp, '=') + 1;
+			printf("%s", temp);
+			path = ft_split(temp, ':');
+			break;
+		}
 		*envp++;
 	}
-	path[0] = ft_strtrim(path[0], "PATH=");
 	return (path);
+}
+
+void	set_cmd(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
+{
+	*cmd1 = new_cmd(argv[2], path);
+	*cmd2 = new_cmd(argv[3], path);
 }
 
 // ls -la /proc/$$/fd
@@ -69,10 +103,14 @@ int main(int argc, char *argv[], char *envp[])
 	char *infile;
 	char **path;
 	char *outfile;
-	// t_cmd	cmd1;
+	t_cmd	cmd1;
+	t_cmd	cmd2;
 
 	path = get_envpath(envp);
-	// cmd1 = new_cmd(argv[2], path);
+	set_cmd(argv, path, &cmd1, &cmd2);
+	free_arr(path);
+	free_arr(cmd1.cmd_array);
+	free_arr(cmd2.cmd_array);
 	if (pipe(pipefd) == -1)
 		return 1;
 
