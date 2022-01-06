@@ -6,7 +6,7 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:33:57 by faguilar          #+#    #+#             */
-/*   Updated: 2022/01/06 16:54:06 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/01/06 17:52:44 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,26 @@ typedef struct s_cmd
 	char **cmd_array;
 } 				t_cmd;
 
-t_cmd	new_cmd(char *cmd_str, char **path)
+void	new_cmd(t_cmd *cmd, char *cmd_str, char **path)
 {
-	t_cmd	cmd;
 	char	*try;
 	char	*temp;
 
-	cmd.cmd_array = ft_split(cmd_str, ' ');
+	cmd->cmd_array = ft_split(cmd_str, ' ');
 	while (*path)
 	{
 		temp = ft_strjoin(*path, "/");
-		try = ft_strjoin(temp, *cmd.cmd_array);
+		try = ft_strjoin(temp, *cmd->cmd_array);
 		free(temp);
 		if (access(try, X_OK) == 0)
 		{
-			cmd.path = try;
-			free(try);
+			cmd->path = ft_strdup(try);
 			break;
 		}
 		free(try);
 		path++;
 	}
-	// int	i = 0;
-	// while (cmd.cmd_array[i])
-	// {
-	// 	free(cmd.cmd_array[i]);
-	// 	i++;
-	// }
-	// free(cmd.cmd_array);
-	return (cmd);
+	free(try);
 }
 
 void	free_arr(char **arr)
@@ -68,6 +59,12 @@ void	free_arr(char **arr)
 	arr = NULL;
 }
 
+void	free_str(char *str)
+{
+	free(str);
+	str = NULL;
+}
+
 char	**get_envpath(char *envp[])
 {
 	char	**path;
@@ -79,7 +76,6 @@ char	**get_envpath(char *envp[])
 		if (ft_strnstr(*envp, "PATH=", 5))
 		{
 			temp = ft_strrchr(*envp, '=') + 1;
-			printf("%s", temp);
 			path = ft_split(temp, ':');
 			break;
 		}
@@ -90,8 +86,10 @@ char	**get_envpath(char *envp[])
 
 void	set_cmd(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
 {
-	*cmd1 = new_cmd(argv[2], path);
-	*cmd2 = new_cmd(argv[3], path);
+	new_cmd(cmd1, argv[2], path);
+	new_cmd(cmd2, argv[3], path);
+	cmd1->infile = argv[1];
+	cmd2->outfile = argv[4];
 }
 
 // ls -la /proc/$$/fd
@@ -108,9 +106,6 @@ int main(int argc, char *argv[], char *envp[])
 
 	path = get_envpath(envp);
 	set_cmd(argv, path, &cmd1, &cmd2);
-	free_arr(path);
-	free_arr(cmd1.cmd_array);
-	free_arr(cmd2.cmd_array);
 	if (pipe(pipefd) == -1)
 		return 1;
 
@@ -120,11 +115,10 @@ int main(int argc, char *argv[], char *envp[])
 
 	if (pid == 0)
 	{
-		char *ping[] = {"/usr/bin/ping", "-c", "2", "google.com", NULL};
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execve("/usr/bin/ping", ping, NULL);
+		execve(cmd1.path, cmd1.cmd_array, envp);
 	}
 
 	int pid2 = fork();
@@ -134,15 +128,21 @@ int main(int argc, char *argv[], char *envp[])
 
 	if (pid2 == 0)
 	{
-		char *grep[] = {"/usr/bin/grep", "rtt",  NULL};
+		// int fd_out = open(cmd2.outfile, O_CREAT | O_RDWR, 0664);
 		dup2(pipefd[0], STDIN_FILENO);
+		// dup2(pipefd[1], fd_out);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execve("/usr/bin/grep", grep, NULL);
+		execve(cmd2.path, cmd2.cmd_array, envp);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	waitpid(pid2, NULL, 0);
+	free_arr(path);
+	free_arr(cmd1.cmd_array);
+	free_arr(cmd2.cmd_array);
+	free_str(cmd1.path);
+	free_str(cmd2.path);
 	return (0);
 }
