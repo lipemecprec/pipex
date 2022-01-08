@@ -7,7 +7,8 @@ INCLUDE = -Iinclude
 LIBS = include/*.h libft/libft.a
 
 SRCS_PATH = ./srcs
-SRCS = $(SRCS_PATH)/main.c
+SRCS = $(SRCS_PATH)/main.c \
+		$(SRCS_PATH)/farewell.c \
 
 all: $(NAME)
 

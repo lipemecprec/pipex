@@ -6,21 +6,11 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:33:57 by faguilar          #+#    #+#             */
-/*   Updated: 2022/01/08 08:43:35 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/01/08 11:21:02 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-#include "stdio.h"
-
-typedef struct s_cmd
-{
-	char *infile;
-	char *outfile;
-	char *path;
-	char **cmd_array;
-} 				t_cmd;
 
 void	new_cmd(t_cmd *cmd, char *cmd_str, char **path)
 {
@@ -45,35 +35,6 @@ void	new_cmd(t_cmd *cmd, char *cmd_str, char **path)
 	free(try);
 }
 
-void	free_str(char *str)
-{
-	free(str);
-	str = NULL;
-}
-
-void	free_str_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free_str(arr[i]);
-		i++;
-	}
-	free(arr);
-	arr = NULL;
-}
-
-void	free_all(char **path, t_cmd *cmd1, t_cmd *cmd2)
-{
-	free_str_arr(path);
-	free_str_arr(cmd1->cmd_array);
-	free_str_arr(cmd2->cmd_array);
-	free_str(cmd1->path);
-	free_str(cmd2->path);
-}
-
 char	**get_envpath(char *envp[])
 {
 	char	**path;
@@ -87,15 +48,9 @@ char	**get_envpath(char *envp[])
 			temp = ft_strrchr(*envp, '=') + 1;
 			path = ft_split(temp, ':');
 			break;
-		}
-		*envp++;
+		}		*envp++;
 	}
 	return (path);
-}
-
-void	farewell()
-{
-	exit (0);
 }
 
 void	set_cmd(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
@@ -104,18 +59,18 @@ void	set_cmd(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
 	
 	new_cmd(cmd1, argv[2], path);
 	if(!cmd1->path)
-		farewell();
+		farewell(ENOENT, NULL, NULL, NULL);
 	new_cmd(cmd2, argv[3], path);
 	if(!cmd2->path)
-		farewell();
+		farewell(2, NULL, NULL, NULL);
 	cmd1->infile = argv[1];
 	fd = open(cmd1->infile, O_RDONLY);
 	if (fd == -1)
-		farewell();
+		farewell(3, NULL, NULL, NULL);
 	cmd2->outfile = argv[4];
-	fd = open(cmd2->outfile, O_RDWR);
+	fd = open(cmd2->outfile, O_WRONLY | O_CREAT, 0664);
 	if (fd == -1)
-		farewell();
+		farewell(4, NULL, NULL, NULL);
 }
 
 // ls -la /proc/$$/fd
@@ -130,6 +85,8 @@ int main(int argc, char *argv[], char *envp[])
 	t_cmd	cmd1;
 	t_cmd	cmd2;
 
+	if (argc != 5)
+		farewell(-1, NULL, NULL, NULL);
 	path = get_envpath(envp);
 	set_cmd(argv, path, &cmd1, &cmd2);
 	if (pipe(pipefd) == -1)
@@ -154,7 +111,7 @@ int main(int argc, char *argv[], char *envp[])
 
 	if (pid2 == 0)
 	{
-		// int fd_out = open(cmd2.outfile, O_CREAT | O_RDWR, 0664);
+		// int fd_out = open(cmd2.outfile, O_CREAT | O_WRONLY, 0664);
 		dup2(pipefd[0], STDIN_FILENO);
 		// dup2(pipefd[1], fd_out);
 		close(pipefd[0]);
@@ -165,6 +122,6 @@ int main(int argc, char *argv[], char *envp[])
 	close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	waitpid(pid2, NULL, 0);
-	free_all(path, &cmd1, &cmd2);
+	farewell(0, path, &cmd1, &cmd2);
 	return (0);
 }

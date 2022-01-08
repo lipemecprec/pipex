@@ -1,7 +1,5 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/faguilar/Coding/42/pipex'
-make -C libft
-make -C libft
-gcc  -o pipex ./srcs/main.c -Llibft -lft -g -Iinclude
+make: Nothing to be done for 'all'.
 make: Leaving directory '/home/faguilar/Coding/42/pipex'
  

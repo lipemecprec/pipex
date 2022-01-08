@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jan  8 08:02:07 2022
+# Make data base, printed on Sat Jan  8 12:44:25 2022
 
 # Variables
 
@@ -83,11 +83,12 @@ CURDIR := /home/faguilar/Coding/42/pipex
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
+ 
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # makefile (from 'Makefile', line 10)
-SRCS = $(SRCS_PATH)/main.c
+SRCS = $(SRCS_PATH)/main.c $(SRCS_PATH)/farewell.c 
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
@@ -281,10 +282,9 @@ KDE_FULL_SESSION = true
 # environment
 LC_IDENTIFICATION = pt_BR.UTF-8
 # variable set hash-table stats:
-# Load=135/1024=13%, Rehash=0, Collisions=13/171=8%
+# Load=135/1024=13%, Rehash=0, Collisions=13/172=8%
 
 # Pattern-specific Variable Values
- 
 
 # No pattern-specific variable values.
 
@@ -304,16 +304,16 @@ LC_IDENTIFICATION = pt_BR.UTF-8
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-03 17:01:27.613135668
+#  Last modified 2022-01-08 12:43:46.833999779
 #  File has been updated.
 #  Successfully updated.
 
-pipex: srcs/main.c include/pipex.h libft/libft.a
+pipex: srcs/main.c srcs/farewell.c include/pipex.h libft/libft.a
 #  Implicit rule search has not been done.
-#  Last modified 2022-01-06 17:52:47.340205902
+#  Last modified 2022-01-08 11:21:52.174553755
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'Makefile', line 15):
+#  recipe to execute (from 'Makefile', line 16):
 	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(LIB_FLAGS) $(INCLUDE)
 
 libft/libft.a:
@@ -321,7 +321,7 @@ libft/libft.a:
 #  Last modified 2022-01-05 17:05:30.240172219
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'Makefile', line 18):
+#  recipe to execute (from 'Makefile', line 19):
 	make -C libft
 
 clean:
@@ -329,16 +329,16 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 21):
+#  recipe to execute (from 'Makefile', line 22):
 	make -C libft/ clean
 	rm -rf $(OBJS)
 
 include/pipex.h:
 #  Implicit rule search has not been done.
-#  Last modified 2022-01-03 15:14:59.676008512
+#  Last modified 2022-01-08 11:18:58.670212394
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'Makefile', line 18):
+#  recipe to execute (from 'Makefile', line 19):
 	make -C libft
 
 re: fclean all
@@ -366,9 +366,16 @@ fclean: clean
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 25):
+#  recipe to execute (from 'Makefile', line 26):
 	make -C libft/ fclean
 	rm $(NAME)
+
+# Not a target:
+srcs/farewell.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-08 11:18:13.092682099
+#  File has been updated.
+#  Successfully updated.
 
 .PHONY: all clean fclean re
 #  Implicit rule search has not been done.
@@ -378,24 +385,24 @@ fclean: clean
 # Not a target:
 srcs/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-06 17:52:45.012156767
+#  Last modified 2022-01-08 11:21:02.875860922
 #  File has been updated.
 #  Successfully updated.
 
 # files hash-table stats:
-# Load=12/1024=1%, Rehash=0, Collisions=0/37=0%
+# Load=13/1024=1%, Rehash=0, Collisions=0/39=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 23 / storage = 191 B / avg = 8 B
-# current buf: size = 8162 B / used = 191 B / count = 23 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 24 / storage = 207 B / avg = 8 B
+# current buf: size = 8162 B / used = 207 B / count = 24 / avg = 8 B
 
-# strcache performance: lookups = 50 / hit rate = 54%
+# strcache performance: lookups = 51 / hit rate = 52%
 # hash-table stats:
-# Load=23/8192=0%, Rehash=0, Collisions=0/50=0%
-# Finished Make data base on Sat Jan  8 08:02:07 2022
+# Load=24/8192=0%, Rehash=0, Collisions=0/51=0%
+# Finished Make data base on Sat Jan  8 12:44:25 2022
 
  
