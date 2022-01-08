@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jan  8 12:44:25 2022
+# Make data base, printed on Sat Jan  8 19:11:35 2022
 
 # Variables
 
@@ -17,9 +17,9 @@ LC_ALL = C
 # environment
 GTK_RC_FILES = /etc/gtk/gtkrc:/home/faguilar/.gtkrc:/home/faguilar/.config/gtkrc
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-33507fac-5a44-4cc3-8070-2a20adc297c1.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-9362fed9-7472-460b-a69c-bcefcebe98d7.sock
 # environment
-KONSOLE_DBUS_SERVICE = :1.74
+KONSOLE_DBUS_SERVICE = :1.1022
 # environment
 LC_NAME = pt_BR.UTF-8
 # environment
@@ -83,7 +83,6 @@ CURDIR := /home/faguilar/Coding/42/pipex
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
- 
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
@@ -116,7 +115,7 @@ MAKEFILE_LIST := Makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 2574
+VSCODE_PID = 20068
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -270,7 +269,7 @@ VSCODE_CLI = 1
 # environment
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
-SHELL_SESSION_ID = 1353382e48bd4823aa9f6db87443de28
+SHELL_SESSION_ID = 5f7fc13a3f8c49a898ce7c96b2f36964
 # environment
 KDE_SESSION_VERSION = 5
 # default
@@ -282,7 +281,7 @@ KDE_FULL_SESSION = true
 # environment
 LC_IDENTIFICATION = pt_BR.UTF-8
 # variable set hash-table stats:
-# Load=135/1024=13%, Rehash=0, Collisions=13/172=8%
+# Load=135/1024=13%, Rehash=0, Collisions=15/183=8%
 
 # Pattern-specific Variable Values
 
@@ -297,6 +296,7 @@ LC_IDENTIFICATION = pt_BR.UTF-8
 
 # Implicit Rules
 
+ 
 # No implicit rules.
 
 # Files
@@ -310,9 +310,28 @@ Makefile:
 
 pipex: srcs/main.c srcs/farewell.c include/pipex.h libft/libft.a
 #  Implicit rule search has not been done.
-#  Last modified 2022-01-08 11:21:52.174553755
+#  Implicit/static pattern stem: ''
+#  Last modified 2022-01-08 13:37:29.013990292
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := pipex
+# automatic
+# * := 
+# automatic
+# < := srcs/main.c
+# automatic
+# + := srcs/main.c srcs/farewell.c include/pipex.h libft/libft.a
+# automatic
+# % := 
+# automatic
+# ^ := srcs/main.c srcs/farewell.c include/pipex.h libft/libft.a
+# automatic
+# ? := srcs/main.c
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=4/19=21%
 #  recipe to execute (from 'Makefile', line 16):
 	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(LIB_FLAGS) $(INCLUDE)
 
@@ -335,7 +354,7 @@ clean:
 
 include/pipex.h:
 #  Implicit rule search has not been done.
-#  Last modified 2022-01-08 11:18:58.670212394
+#  Last modified 2022-01-08 13:37:04.867317616
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 19):
@@ -359,7 +378,9 @@ all: pipex
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/11=0%
 
 fclean: clean
 #  Phony target (prerequisite of .PHONY).
@@ -373,9 +394,15 @@ fclean: clean
 # Not a target:
 srcs/farewell.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-08 11:18:13.092682099
+#  Last modified 2022-01-08 13:24:40.604818382
 #  File has been updated.
 #  Successfully updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 .PHONY: all clean fclean re
 #  Implicit rule search has not been done.
@@ -385,12 +412,12 @@ srcs/farewell.c:
 # Not a target:
 srcs/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-08 11:21:02.875860922
+#  Last modified 2022-01-08 13:37:51.084883701
 #  File has been updated.
 #  Successfully updated.
 
 # files hash-table stats:
-# Load=13/1024=1%, Rehash=0, Collisions=0/39=0%
+# Load=13/1024=1%, Rehash=0, Collisions=0/40=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
@@ -400,9 +427,9 @@ srcs/main.c:
 # strcache buffers: 1 (0) / strings = 24 / storage = 207 B / avg = 8 B
 # current buf: size = 8162 B / used = 207 B / count = 24 / avg = 8 B
 
-# strcache performance: lookups = 51 / hit rate = 52%
+# strcache performance: lookups = 52 / hit rate = 53%
 # hash-table stats:
-# Load=24/8192=0%, Rehash=0, Collisions=0/51=0%
-# Finished Make data base on Sat Jan  8 12:44:25 2022
+# Load=24/8192=0%, Rehash=0, Collisions=0/52=0%
+# Finished Make data base on Sat Jan  8 19:11:35 2022
 
  

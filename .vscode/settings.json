@@ -1,3 +1,7 @@
 {
-	"makefile.extensionOutputFolder": "./.vscode"
+	"makefile.extensionOutputFolder": "./.vscode",
+	"files.associations": {
+		"*.erb": "erb",
+		"errno.h": "c"
+	}
 }

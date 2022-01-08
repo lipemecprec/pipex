@@ -6,16 +6,14 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:34:16 by faguilar          #+#    #+#             */
-/*   Updated: 2022/01/08 11:18:58 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/01/08 19:31_:36 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# define CHECK(X) ({int __val = (X); (__val ==-1 ? \
-		({ft_putstr_fd("ERROR - "__FILE__":", 2); ft_putnbr_fd(__LINE__, 2); \
-		exit(-1);-1;}) : __val); })
+# define WRONG_ARG_NO -1
 
 typedef struct s_cmd
 {
