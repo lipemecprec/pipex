@@ -6,7 +6,7 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:33:57 by faguilar          #+#    #+#             */
-/*   Updated: 2022/01/06 17:52:44 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/01/08 08:43:35 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	new_cmd(t_cmd *cmd, char *cmd_str, char **path)
 	char	*temp;
 
 	cmd->cmd_array = ft_split(cmd_str, ' ');
+	cmd->path = NULL;
 	while (*path)
 	{
 		temp = ft_strjoin(*path, "/");
@@ -44,25 +45,33 @@ void	new_cmd(t_cmd *cmd, char *cmd_str, char **path)
 	free(try);
 }
 
-void	free_arr(char **arr)
+void	free_str(char *str)
+{
+	free(str);
+	str = NULL;
+}
+
+void	free_str_arr(char **arr)
 {
 	int	i;
 
 	i = 0;
 	while (arr[i])
 	{
-		free(arr[i]);
-		arr[i] = NULL;
+		free_str(arr[i]);
 		i++;
 	}
 	free(arr);
 	arr = NULL;
 }
 
-void	free_str(char *str)
+void	free_all(char **path, t_cmd *cmd1, t_cmd *cmd2)
 {
-	free(str);
-	str = NULL;
+	free_str_arr(path);
+	free_str_arr(cmd1->cmd_array);
+	free_str_arr(cmd2->cmd_array);
+	free_str(cmd1->path);
+	free_str(cmd2->path);
 }
 
 char	**get_envpath(char *envp[])
@@ -84,12 +93,29 @@ char	**get_envpath(char *envp[])
 	return (path);
 }
 
+void	farewell()
+{
+	exit (0);
+}
+
 void	set_cmd(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
 {
+	int	fd;
+	
 	new_cmd(cmd1, argv[2], path);
+	if(!cmd1->path)
+		farewell();
 	new_cmd(cmd2, argv[3], path);
+	if(!cmd2->path)
+		farewell();
 	cmd1->infile = argv[1];
+	fd = open(cmd1->infile, O_RDONLY);
+	if (fd == -1)
+		farewell();
 	cmd2->outfile = argv[4];
+	fd = open(cmd2->outfile, O_RDWR);
+	if (fd == -1)
+		farewell();
 }
 
 // ls -la /proc/$$/fd
@@ -139,10 +165,6 @@ int main(int argc, char *argv[], char *envp[])
 	close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	waitpid(pid2, NULL, 0);
-	free_arr(path);
-	free_arr(cmd1.cmd_array);
-	free_arr(cmd2.cmd_array);
-	free_str(cmd1.path);
-	free_str(cmd2.path);
+	free_all(path, &cmd1, &cmd2);
 	return (0);
 }
