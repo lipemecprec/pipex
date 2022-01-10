@@ -14,6 +14,9 @@
 # define PIPEX_H
 
 # define WRONG_ARG_NO -1
+# define READ_END 0
+# define WRITE_END 1
+# define PERM_0664 436
 
 typedef struct s_cmd
 {

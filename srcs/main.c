@@ -6,7 +6,7 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:33:57 by faguilar          #+#    #+#             */
-/*   Updated: 2022/01/08 20:08:59 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/01/10 17:47:55 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,18 @@ char	**get_envpath(char *envp[])
 	return (path);
 }
 
-void	set_files(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
+void	set_files(char *argv[], t_cmd *cmd1, t_cmd *cmd2)
 {
 	int	fd;
 	
 	cmd1->infile = argv[1];
 	fd = open(cmd1->infile, O_RDONLY);
 	if (fd == -1)
-		farewell(errno, path, cmd1, cmd2);
+		farewell(errno, NULL, cmd1, cmd2);
 	cmd2->outfile = argv[4];
 	fd = open(cmd2->outfile, O_WRONLY | O_CREAT, 0664);
 	if (fd == -1)
-		farewell(errno, path, cmd1, cmd2);
+		farewell(errno, NULL, cmd1, cmd2);
 }
 
 void	set_cmds(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
@@ -82,6 +82,7 @@ void	set_cmds(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
 int main(int argc, char *argv[], char *envp[])
 {
 	int pipefd[2];
+	int fd;
 	int pid;
 	char *infile;
 	char **path;
@@ -91,7 +92,7 @@ int main(int argc, char *argv[], char *envp[])
 
 	if (argc != 5)
 		farewell(WRONG_ARG_NO, NULL, NULL, NULL);
-	set_files(argv, path, &cmd1, &cmd2);
+	set_files(argv, &cmd1, &cmd2);
 	path = get_envpath(envp);
 	set_cmds(argv, path, &cmd1, &cmd2);
 	if (pipe(pipefd) == -1)
@@ -102,9 +103,11 @@ int main(int argc, char *argv[], char *envp[])
 
 	if (pid == 0)
 	{
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
+		fd = open(cmd1.infile, O_RDONLY);
+		dup2(pipefd[READ_END], fd);
+		dup2(pipefd[WRITE_END], STDOUT_FILENO);
+		close(pipefd[READ_END]);
+		close(pipefd[WRITE_END]);
 		execve(cmd1.path, cmd1.cmd_array, envp);
 	}
 
@@ -115,12 +118,12 @@ int main(int argc, char *argv[], char *envp[])
 
 	if (pid2 == 0)
 	{
-		// int fd_out = open(cmd2.outfile, O_CREAT | O_WRONLY, 0664);
-		dup2(pipefd[0], STDIN_FILENO);
-		// dup2(pipefd[1], fd_out);
-		close(pipefd[0]);
-		close(pipefd[1]);
+		fd = open(cmd2.outfile, O_CREAT | O_WRONLY, PERM_0664);
+		dup2(pipefd[READ_END], STDIN_FILENO);
+		dup2(pipefd[WRITE_END], fd);
 		execve(cmd2.path, cmd2.cmd_array, envp);
+		close(pipefd[READ_END]);
+		close(pipefd[WRITE_END]);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
