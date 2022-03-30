@@ -6,11 +6,11 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:33:57 by faguilar          #+#    #+#             */
-/*   Updated: 2022/01/10 17:47:55 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/03/30 17:06:07 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../include/pipex.h"
 
 void	new_cmd(t_cmd *cmd, char *cmd_str, char **path)
 {
@@ -27,7 +27,7 @@ void	new_cmd(t_cmd *cmd, char *cmd_str, char **path)
 		if (access(try, X_OK) == 0)
 		{
 			cmd->path = ft_strdup(try);
-			break;
+			break ;
 		}
 		free(try);
 		path++;
@@ -47,24 +47,21 @@ char	**get_envpath(char *envp[])
 		{
 			temp = ft_strrchr(*envp, '=') + 1;
 			path = ft_split(temp, ':');
-			break;
-		}		*envp++;
+			break ;
+		}		
+		*envp++;
 	}
 	return (path);
 }
 
 void	set_files(char *argv[], t_cmd *cmd1, t_cmd *cmd2)
 {
-	int	fd;
-	
-	cmd1->infile = argv[1];
-	fd = open(cmd1->infile, O_RDONLY);
-	if (fd == -1)
+	if (access(argv[1], F_OK))
 		farewell(errno, NULL, cmd1, cmd2);
-	cmd2->outfile = argv[4];
-	fd = open(cmd2->outfile, O_WRONLY | O_CREAT, 0664);
-	if (fd == -1)
+	cmd1->infile = open(argv[1], O_RDONLY);
+	if (access(argv[4], F_OK))
 		farewell(errno, NULL, cmd1, cmd2);
+	cmd2->outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0664);
 }
 
 void	set_cmds(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
@@ -79,56 +76,52 @@ void	set_cmds(char *argv[], char **path, t_cmd *cmd1, t_cmd *cmd2)
 
 // ls -la /proc/$$/fd
 // /pipex infile ``ls -l'' ``wc -l'' outfile
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	int pipefd[2];
-	int fd;
-	int pid;
-	char *infile;
-	char **path;
-	char *outfile;
-	t_cmd	cmd1;
-	t_cmd	cmd2;
+	int		pipefd[2];
+	int		pid;
+	char	**path;
+	t_pipex	data;
 
 	if (argc != 5)
 		farewell(WRONG_ARG_NO, NULL, NULL, NULL);
-	set_files(argv, &cmd1, &cmd2);
+	set_files(argv, &data.cmd1, &data.cmd2);
 	path = get_envpath(envp);
-	set_cmds(argv, path, &cmd1, &cmd2);
+	set_cmds(argv, path, &data.cmd1, &data.cmd2);
+	dup2(data.cmd1.infile, STDIN);
+	// dup2(data.cmd1.outfile, STDOUT);
 	if (pipe(pipefd) == -1)
-		return 1;
+		farewell(errno, path, &data.cmd1, &data.cmd2);
 	pid = fork();
 	if (pid == -1)
-		return (2);
+		farewell(errno, path, &data.cmd1, &data.cmd2);
 
 	if (pid == 0)
 	{
-		fd = open(cmd1.infile, O_RDONLY);
-		dup2(pipefd[READ_END], fd);
-		dup2(pipefd[WRITE_END], STDOUT_FILENO);
+		dup2(pipefd[WRITE_END], STDOUT);
 		close(pipefd[READ_END]);
 		close(pipefd[WRITE_END]);
-		execve(cmd1.path, cmd1.cmd_array, envp);
+		execve(data.cmd1.path, data.cmd1.cmd_array, envp);
 	}
-
-	int pid2 = fork();
+	// WIFEXITED(status);
+	int	pid2 = fork();
 
 	if (pid2 == -1)
 		return (3);
 
 	if (pid2 == 0)
 	{
-		fd = open(cmd2.outfile, O_CREAT | O_WRONLY, PERM_0664);
-		dup2(pipefd[READ_END], STDIN_FILENO);
-		dup2(pipefd[WRITE_END], fd);
-		execve(cmd2.path, cmd2.cmd_array, envp);
+		// fd = open(cmd2.outfile, O_CREAT | O_WRONLY, PERM_0664);
+		dup2(pipefd[READ_END], STDIN);
+		// dup2(pipefd[WRITE_END], fd);
 		close(pipefd[READ_END]);
 		close(pipefd[WRITE_END]);
+		execve(data.cmd2.path, data.cmd2.cmd_array, envp);
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
+	close(pipefd[READ_END]);
+	close(pipefd[WRITE_END]);
 	waitpid(pid, NULL, 0);
 	waitpid(pid2, NULL, 0);
-	farewell(EXIT_SUCCESS, path, &cmd1, &cmd2);
+	farewell(EXIT_SUCCESS, path, &data.cmd1, &data.cmd2);
 	return (0);
 }

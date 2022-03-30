@@ -6,11 +6,11 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:14:35 by faguilar          #+#    #+#             */
-/*   Updated: 2022/01/08 20:14:32 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/03/30 17:06:36 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../include/pipex.h"
 
 static void	free_str(char *str)
 {

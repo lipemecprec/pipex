@@ -1,7 +1,8 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/faguilar/Coding/42/pipex'
-make -C libft
-make -C libft
-gcc  -o pipex ./srcs/main.c ./srcs/farewell.c  -Llibft -lft -g -Iinclude
+gcc    -c -o srcs/main.o srcs/main.c
+gcc    -c -o srcs/farewell.o srcs/farewell.c
+gcc    -c -o srcs/utils.o srcs/utils.c
+gcc  -o pipex ./srcs/main.c ./srcs/farewell.c ./srcs/utils.c -Llibft -lft -g -Iinclude
 make: Leaving directory '/home/faguilar/Coding/42/pipex'
  

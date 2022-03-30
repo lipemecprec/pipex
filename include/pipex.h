@@ -18,16 +18,29 @@
 # define WRITE_END 1
 # define PERM_0664 436
 
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
+
 typedef struct s_cmd
 {
-	char *infile;
-	char *outfile;
-	char *path;
-	char **cmd_array;
+	int		infile;
+	int		outfile;
+	char	*path;
+	char	**cmd_array;
 } 				t_cmd;
+
+typedef struct s_pipex
+{
+	t_cmd	cmd1;
+	t_cmd	cmd2;
+	char	**path;
+}			t_pipex;
 
 // libft
 # include "../libft/libft.h"
+// printf
+# include "../ft_printf/include/ft_printf.h"
 // lib for: open
 # include <fcntl.h>
 // lib for: access, unlink, close, read, pipe, dup, dup2, execve, fork
