@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'srcs/main.o', needed by 'pipex'.  Stop.
-
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'srcs/main.o', needed by 'pipex'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Mar 30 17:05:49 2022
+# Make data base, printed on Sat Apr  2 23:27:25 2022
 
 # Variables
 
@@ -19,13 +17,17 @@ LC_ALL = C
 # environment
 GTK_RC_FILES = /etc/gtk/gtkrc:/home/faguilar/.gtkrc:/home/faguilar/.config/gtkrc
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-288ac951-deba-4af8-94fd-8465ceed9269.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-63bb2f41-8766-4e71-bd12-e84964416d9f.sock
+# environment
+KONSOLE_DBUS_SERVICE = :1.1850
 # environment
 LC_NAME = pt_BR.UTF-8
 # environment
 LC_NUMERIC = pt_BR.UTF-8
 # environment
-VSCODE_CWD = /home/faguilar
+VSCODE_CWD = /home/faguilar/Coding/42/pipex
+# environment
+WINDOWID = 79691783
 # makefile (from 'Makefile', line 7)
 LIBS = include/*.h libft/libft.a ft_printf/ft_printf.a
 # environment
@@ -39,6 +41,8 @@ QT_ACCESSIBILITY = 1
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
+KONSOLE_VERSION = 210801
+# environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
 .VARIABLES := 
@@ -48,6 +52,10 @@ PWD = /home/faguilar/Coding/42/pipex
 %D = $(patsubst %/,%,$(dir $%))
 # environment
 XDG_DATA_DIRS = /usr/share/plasma:/home/faguilar/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+# environment
+OLDPWD = /home/faguilar
+# environment
+KONSOLE_DBUS_WINDOW = /Windows/1
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
@@ -55,7 +63,7 @@ VSCODE_LOG_STACK = false
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = /home/faguilar/.config/Code/CachedData/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1
+VSCODE_CODE_CACHE_PATH = /home/faguilar/.config/Code/CachedData/e18005f0f1b33c29e81d732535d8c0e47cafb0b5
 # environment
 XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session1
 # environment
@@ -66,6 +74,8 @@ XAUTHORITY = /home/faguilar/.Xauthority
 .LOADED := 
 # default
 .INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
+# environment
+COLORFGBG = 15;0
 # makefile
 MAKEFLAGS = pqrR
 # makefile
@@ -83,7 +93,7 @@ PAM_KWALLET5_LOGIN = /run/user/1000/kwallet5.socket
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-oLq0GAjeBoAb/agent.1537
+SSH_AUTH_SOCK = /tmp/ssh-QlRTehqBqznX/agent.1504
 # default
 .SHELLFLAGS := -c
 # environment
@@ -101,13 +111,13 @@ MAKEFILE_LIST := Makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 6704
+VSCODE_PID = 34277
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/17Z90P:@/tmp/.ICE-unix/1819,unix/17Z90P:/tmp/.ICE-unix/1819
+SESSION_MANAGER = local/17Z90P:@/tmp/.ICE-unix/1777,unix/17Z90P:/tmp/.ICE-unix/1777
 # automatic
 *F = $(notdir $*)
 # environment
@@ -133,15 +143,19 @@ MAKECMDGOALS := all
 # environment
 XMODIFIERS = @im=ibus
 # environment
-SHLVL = 0
+SHLVL = 1
+# environment
+PROFILEHOME = 
 # environment
 MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = /home/faguilar/.local/bin:/home/faguilar/.local/bin:/home/faguilar/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/faguilar/.local/bin:/home/faguilar/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # default
 MAKEFILES := 
+# environment
+LANGUAGE = 
 # environment
 LC_MONETARY = pt_BR.UTF-8
 # automatic
@@ -183,7 +197,7 @@ XDG_VTNR = 1
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 1514
+SYSTEMD_EXEC_PID = 1469
 # environment
 HISTCONTROL = ignoreboth:erasedups
 # environment
@@ -195,19 +209,23 @@ MAKE_VERSION := 4.3
 # environment
 KDE_SESSION_UID = 1000
 # makefile (from 'Makefile', line 5)
-LIB_FLAGS = -Llibft -lft -g
+LIB_FLAGS = -Llibft -Lft_printf -lft -g
+# environment
+KONSOLE_DBUS_SESSION = /Sessions/1
 # environment
 LC_MEASUREMENT = pt_BR.UTF-8
 # environment
-SSH_AGENT_PID = 1608
+SSH_AGENT_PID = 1575
 # environment
-_ = /usr/share/code/code
+_ = /usr/bin/code
 # environment
 LC_PAPER = pt_BR.UTF-8
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+COLORTERM = truecolor
 # environment
 LC_CTYPE = pt_BR.UTF-8
 # environment
@@ -223,7 +241,9 @@ QT_IM_MODULE = ibus
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-d97178ec-1.65.2-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-d97178ec-1.66.0-main.sock
+# environment
+TERM = xterm-256color
 # environment
 XDG_SESSION_ID = 3
 # environment
@@ -239,6 +259,12 @@ SUFFIXES :=
 # environment
 QT_AUTO_SCREEN_SCALE_FACTOR = 0
 # environment
+VSCODE_CLI = 1
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+SHELL_SESSION_ID = 6e46d68f942b4791b9beabe4e48ca4fb
+# environment
 KDE_SESSION_VERSION = 5
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
@@ -249,7 +275,7 @@ KDE_FULL_SESSION = true
 # environment
 LC_IDENTIFICATION = pt_BR.UTF-8
 # variable set hash-table stats:
-# Load=118/1024=12%, Rehash=0, Collisions=6/161=4%
+# Load=132/1024=13%, Rehash=0, Collisions=10/175=6%
 
 # Pattern-specific Variable Values
 
@@ -258,9 +284,9 @@ LC_IDENTIFICATION = pt_BR.UTF-8
 # Directories
 
 # include (device 66311, inode 8138580): 3 files, no impossibilities.
-# . (device 66311, inode 8007987): 14 files, no impossibilities.
+# . (device 66311, inode 8007987): 20 files, no impossibilities.
 
-# 17 files, no impossibilities in 2 directories.
+# 23 files, no impossibilities in 2 directories.
 
 # Implicit Rules
 
@@ -271,26 +297,29 @@ LC_IDENTIFICATION = pt_BR.UTF-8
 # Not a target:
 srcs/main.o:
 #  Implicit rule search has been done.
-#  File does not exist.
-#  File has not been updated.
+#  Last modified 2022-04-01 21:12:47.462828482
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-30 17:05:24.977001754
+#  Last modified 2022-03-31 18:22:51.534826104
 #  File has been updated.
 #  Successfully updated.
 
+ 
 pipex: srcs/main.c srcs/farewell.c srcs/utils.c include/pipex.h libft/libft.a ft_printf/ft_printf.a srcs/main.o srcs/farewell.o srcs/utils.o
 #  Implicit rule search has not been done.
-#  Last modified 2022-03-30 17:02:09.364926628
-#  File has not been updated.
+#  Last modified 2022-04-01 21:12:47.542826984
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 18):
 	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(LIB_FLAGS) $(INCLUDE)
 
 libft/libft.a:
 #  Implicit rule search has not been done.
-#  Last modified 2022-03-30 17:02:09.208927321
+#  Last modified 2022-03-30 17:10:30.647896899
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 21):
@@ -302,7 +331,6 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
- 
 #  recipe to execute (from 'Makefile', line 25):
 	make -C libft/ clean
 	make -C ft_printf/ clean
@@ -310,7 +338,7 @@ clean:
 
 ft_printf/ft_printf.a:
 #  Implicit rule search has not been done.
-#  Last modified 2022-03-30 17:02:09.316926841
+#  Last modified 2022-03-30 17:10:30.755898349
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 21):
@@ -320,7 +348,7 @@ ft_printf/ft_printf.a:
 # Not a target:
 srcs/utils.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-08 13:15:25.016779531
+#  Last modified 2022-03-30 17:10:18.439734532
 #  File has been updated.
 #  Successfully updated.
 
@@ -341,9 +369,10 @@ re: fclean all
 
 # Not a target:
 srcs/farewell.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-03-31 18:21:00.256108049
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 .DEFAULT:
@@ -356,7 +385,8 @@ all: pipex
 #  Command line target.
 #  Implicit rule search has not been done.
 #  File does not exist.
-#  File has not been updated.
+#  File has been updated.
+#  Successfully updated.
 
 fclean: clean
 #  Phony target (prerequisite of .PHONY).
@@ -370,14 +400,15 @@ fclean: clean
 
 # Not a target:
 srcs/utils.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-03-30 17:10:30.811899102
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 srcs/farewell.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-08 20:14:32.32275048
+#  Last modified 2022-03-31 18:20:15.203011607
 #  File has been updated.
 #  Successfully updated.
 
@@ -389,7 +420,7 @@ srcs/farewell.c:
 # Not a target:
 srcs/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-12 16:36:34.990790228
+#  Last modified 2022-04-01 13:47:06.241149225
 #  File has been updated.
 #  Successfully updated.
 
@@ -401,12 +432,12 @@ srcs/main.c:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 33 / storage = 315 B / avg = 9 B
-# current buf: size = 8162 B / used = 315 B / count = 33 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 39 / storage = 373 B / avg = 9 B
+# current buf: size = 8162 B / used = 373 B / count = 39 / avg = 9 B
 
-# strcache performance: lookups = 62 / hit rate = 46%
+# strcache performance: lookups = 68 / hit rate = 42%
 # hash-table stats:
-# Load=33/8192=0%, Rehash=0, Collisions=0/62=0%
-# Finished Make data base on Wed Mar 30 17:05:49 2022
+# Load=39/8192=0%, Rehash=0, Collisions=0/68=0%
+# Finished Make data base on Sat Apr  2 23:27:25 2022
 
  

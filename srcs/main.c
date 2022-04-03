@@ -6,7 +6,7 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:33:57 by faguilar          #+#    #+#             */
-/*   Updated: 2022/03/30 17:06:07 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:26:57 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	set_files(char *argv[], t_cmd *cmd1, t_cmd *cmd2)
 {
 	if (access(argv[1], F_OK))
 		farewell(errno, NULL, cmd1, cmd2);
-	cmd1->infile = open(argv[1], O_RDONLY);
 	if (access(argv[4], F_OK))
 		farewell(errno, NULL, cmd1, cmd2);
+	cmd1->infile = open(argv[1], O_RDONLY);
 	cmd2->outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0664);
 }
 
@@ -89,7 +89,7 @@ int	main(int argc, char *argv[], char *envp[])
 	path = get_envpath(envp);
 	set_cmds(argv, path, &data.cmd1, &data.cmd2);
 	dup2(data.cmd1.infile, STDIN);
-	// dup2(data.cmd1.outfile, STDOUT);
+	dup2(data.cmd2.outfile, STDOUT);
 	if (pipe(pipefd) == -1)
 		farewell(errno, path, &data.cmd1, &data.cmd2);
 	pid = fork();
@@ -123,5 +123,6 @@ int	main(int argc, char *argv[], char *envp[])
 	waitpid(pid, NULL, 0);
 	waitpid(pid2, NULL, 0);
 	farewell(EXIT_SUCCESS, path, &data.cmd1, &data.cmd2);
+	ft_putstr_fd("Till the end", 2);
 	return (0);
 }

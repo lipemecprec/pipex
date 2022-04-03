@@ -2,7 +2,7 @@ NAME = pipex
 CC = gcc
 # FLAGS = -Wall -Wextra -Werror
 
-LIB_FLAGS = -Llibft -lft -g
+LIB_FLAGS = -Llibft -Lft_printf -lft -g
 INCLUDE = -Iinclude
 LIBS = include/*.h libft/libft.a ft_printf/ft_printf.a
 
