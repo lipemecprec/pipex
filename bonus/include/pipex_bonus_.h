@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/30 13:34:16 by faguilar          #+#    #+#             */
-/*   Updated: 2022/04/20 16:41:23 by faguilar         ###   ########.fr       */
+/*   Created: 2022/04/15 13:21:19 by faguilar          #+#    #+#             */
+/*   Updated: 2022/04/20 16:07:41 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # define WRONG_ARG_NO	450
 # define READ_END		0
@@ -33,10 +33,12 @@
 # define ERR_MSG_CMD	": command not found.\n"
 
 // libft
-# include "../libft/libft.h"
+# include "../../libft/libft.h"
 // printf
-# include "../ft_printf/include/ft_printf.h"
-// lib for: open
+# include "../../ft_printf/include/ft_printf.h"
+// libs for open
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <fcntl.h>
 // lib for: access, unlink, close, read, pipe, dup, dup2, execve, fork
 # include <unistd.h> 
@@ -46,26 +48,28 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 // libs for: perror, strerror
-# include "stdio.h"
-# include "string.h"
-# include "errno.h"
+# include <stdio.h>
+# include <string.h>
+# include <errno.h>
 
 typedef struct s_cmd
 {
-	int		infile;
-	int		outfile;
 	char	*path;
 	char	**cmd_array;
 }			t_cmd;
 
 typedef struct s_pipex
 {
+	int		argc;
+	int		infile;
+	int		outfile;
 	t_cmd	cmd1;
 	t_cmd	cmd2;
-	char	**path;
+	char	**env_path;
 	int		exec_status;
+	int		args_index;
 }			t_pipex;
 
-void	terminate(int code, char **path, t_cmd *cmd1, t_cmd *cmd2);
+void	terminate(int exit_code, t_pipex *data);
 
 #endif

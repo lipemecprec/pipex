@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   farewell.c                                         :+:      :+:    :+:   */
+/*   terminate_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:14:35 by faguilar          #+#    #+#             */
-/*   Updated: 2022/03/31 18:20:15 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/04/19 11:06:24 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "../include/pipex_bonus.h"
 
 static void	free_str(char *str)
 {
@@ -32,29 +32,24 @@ static void	free_str_arr(char **arr)
 	arr = NULL;
 }
 
-static void	free_all(char **path, t_cmd *cmd1, t_cmd *cmd2)
+static void	free_all(t_pipex *data)
 {
-	free_str_arr(path);
-	free_str_arr(cmd1->cmd_array);
-	free_str_arr(cmd2->cmd_array);
-	free_str(cmd1->path);
-	free_str(cmd2->path);
+	free_str_arr(data->cmd1.cmd_array);
+	free_str_arr(data->cmd2.cmd_array);
+	free_str(data->cmd1.path);
+	free_str(data->cmd2.path);
+	free_str_arr(data->env_path);
 }
 
-void	farewell(int code, char **path, t_cmd *cmd1, t_cmd *cmd2)
+void	terminate(int exit_code, t_pipex *data)
 {
-	if (code == EXIT_SUCCESS)
-		free_all(path, cmd1, cmd2);
-	else if (code == WRONG_ARG_NO)
+	if (exit_code == EXIT_SUCCESS)
+		free_all(data);
+	else if (exit_code == WRONG_ARG_NO)
 	{
 		ft_putstr_fd("Error - Invalid number of arguments.\
 		\nusage: ./pipex <infile> \"cmd1\" \"cmd2\" <outfile>.\n", 1);
-		ft_putstr_fd("Wrong number of arguments.", 2);
+		write(STDERR, ERR_MSG_ARG, ft_strlen(ERR_MSG_ARG));
 	}
-	else if (code == ENOENT)
-		ft_putstr_fd(strerror(code), 2);
-	else if (code == EACCES)
-		ft_putstr_fd(strerror(code), 2);
-	// white_std_error(code);
-	exit (code);
+	exit (exit_code);
 }
