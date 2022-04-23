@@ -6,13 +6,13 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 13:21:37 by faguilar          #+#    #+#             */
-/*   Updated: 2022/04/21 00:13:48 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/04/23 00:17:28 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex_bonus.h"
 
-void write_args(int argc, char **argv, char **envp)
+void	write_args(int argc, char **argv, char **envp)
 {
 	#include <string.h> 
 	int i = 0;
@@ -129,16 +129,23 @@ char	**get_envpath(char *envp[])
 	return (env_path);
 }
 
-void	set_files(char *argv[], t_pipex *data)
+void	set_infile(char *argv[], t_pipex *data)
 {
-	data->outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (access(argv[1], F_OK) != 0)
-		terminate(OP_NOT_ALLOWED, data);
-	dup2(data->outfile, STDOUT);
 	data->infile = open(argv[1], O_RDONLY);
 	if (data->infile == -1)
 		data->infile = STDIN;
 	dup2(data->infile, STDIN);
+}
+
+void	set_outfile(char *argv[], t_pipex *data)
+{
+	int	last;
+
+	last = data->argc - 1;
+	data->outfile = open(argv[last], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (access(argv[1], F_OK) != 0)
+		terminate(OP_NOT_ALLOWED, data);
+	dup2(data->outfile, STDOUT);
 }
 
 void	read_args(t_pipex *data, int argc, char *argv[], char *envp[])
@@ -146,9 +153,10 @@ void	read_args(t_pipex *data, int argc, char *argv[], char *envp[])
 	write_args(argc, argv, envp);
 	// if (argc != 5)
 	// 	terminate(WRONG_ARG_NO, data);
-	data->input = argc;
+	data->argc = argc;
 	data->env_path = get_envpath(envp);
-	set_files(argv, data);
+	set_infile(argv, data);
+	set_outfile(argv, data);
 	set_cmds(argv, data);
 }
 
@@ -171,7 +179,7 @@ void	create_pipes(t_pipex *data)
 	int	i;
 	int	pipes_qty;
 
-	pipes_qty = data->input - 1;
+	pipes_qty = data->argc - 1;
 	i = 1;
 	data->pipes = (int **)malloc(pipes_qty * sizeof(int *));
 	while (i < pipes_qty)
@@ -201,7 +209,7 @@ int	main(int argc, char *argv[], char *envp[])
 	int		wstatus;
 
 	read_args(&data, argc, argv, envp);
-	create_pipes(&data);
+	// create_pipes(&data);
 	if (pipe(pipefd) == -1)
 		terminate(errno, &data);
 	pid = fork();

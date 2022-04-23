@@ -6,7 +6,7 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 13:21:19 by faguilar          #+#    #+#             */
-/*   Updated: 2022/04/21 00:07:36 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/04/21 10:20:22 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_cmd
 
 typedef struct s_pipex
 {
-	int		input;
+	int		argc;
 	int		infile;
 	int		outfile;
 	t_cmd	cmd1;
