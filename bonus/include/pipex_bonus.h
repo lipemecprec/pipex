@@ -6,7 +6,7 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 13:21:19 by faguilar          #+#    #+#             */
-/*   Updated: 2022/04/21 10:20:22 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/04/26 10:57:43 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@
 
 // libft
 # include "../../libft/libft.h"
-// printf
-# include "../../ft_printf/include/ft_printf.h"
 // libs for open
 # include <sys/types.h>
 # include <sys/stat.h>

@@ -6,7 +6,7 @@
 /*   By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 13:34:16 by faguilar          #+#    #+#             */
-/*   Updated: 2022/04/20 16:41:23 by faguilar         ###   ########.fr       */
+/*   Updated: 2022/04/26 10:37:51 by faguilar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@
 
 // libft
 # include "../libft/libft.h"
-// printf
-# include "../ft_printf/include/ft_printf.h"
 // lib for: open
 # include <fcntl.h>
 // lib for: access, unlink, close, read, pipe, dup, dup2, execve, fork

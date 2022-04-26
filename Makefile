@@ -1,50 +1,66 @@
-NAME = pipex
-CC = gcc
-# FLAGS = -Wall -Wextra -Werror
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: faguilar <faguilar@student.42sp.org.br>    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/04/26 10:32:04 by faguilar          #+#    #+#              #
+#    Updated: 2022/04/26 11:08:22 by faguilar         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-LIB_FLAGS = -Llibft -Lft_printf -l:libft.a -l:ft_printf.a -g
+NAME = pipex
+NAME_B = pipex_bonus
+
+CC = gcc
+# FLAGS = -Wall -Wextra -Werror -g
+
+LIFLAGS = -Llibft -l:libft.a
 INCLUDE = -Iinclude
 
-LIBS = include/*.h libft/libft.a \
-		ft_printf/ft_printf.a ft_printf/include/ft_printf.h
+LIBS = include/pipex.h libft/libft.a
 SRCS_PATH = ./srcs
 SRCS = $(SRCS_PATH)/main.c \
 		$(SRCS_PATH)/terminate.c \
 		$(SRCS_PATH)/utils.c
-OBJS = ${SRCS:%.c=%.o}
+OBJS = ${SRCS:.c=.o}
 INCLUDE = -Iinclude
 
-BONUS_LIBS = bonus/include/*.h libft/libft.a \
-		ft_printf/ft_printf.a ft_printf/include/ft_printf.h
-BONUS_SRCS_PATH = ./bonus/srcs
-BONUS_SRCS = $(BONUS_SRCS_PATH)/main_bonus.c \
-				$(BONUS_SRCS_PATH)/terminate_bonus.c \
-				$(BONUS_SRCS_PATH)/utils_bonus.c
-BONUS_OBJS = ${BONUS_SRCS:%.c=%.o}
-BONUS_INCLUDE = -Ibonus/include
+LIBS_B = bonus/include/pipex_bonus.h libft/libft.a
+SRCS_PATH_B = ./bonus/srcs
+SRCS_B = $(SRCS_PATH_B)/main_bonus.c \
+				$(SRCS_PATH_B)/terminate_bonus.c \
+				$(SRCS_PATH_B)/utils_bonus.c
+OBJS_B = ${SRCS_B:.c=.o}
+INCLUDE_B = -Ibonus/include
+
+# .c.o:	%.o : %.C
+# 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $(<:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(SRCS) $(LIBS) $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(SRCS) $(LIB_FLAGS) $(INCLUDE)
+	$(CC) $(FLAGS) $(OBJS) $(LIFLAGS) -o $(NAME)
 
 $(LIBS):
 	make -C libft
-	make -C ft_printf
 
 clean:
 	make -C libft/ clean
-	make -C ft_printf/ clean
-	rm -rf $(OBJS)
+	@rm -rf $(OBJS) $(OBJS_B)
 
 fclean: clean
 	make -C libft/ fclean
-	make -C ft_printf/ fclean
-	rm $(NAME)
+	@rm $(NAME)
 
 re: fclean all
 
-bonus: $(BONUS_SRCS) $(BONUS_LIBS) $(BONUS_OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(BONUS_SRCS) $(LIB_FLAGS) $(BONUS_INCLUDE)
+re_bonus: fclean bonus
+
+bonus: $(NAME_B)
+
+$(NAME_B): $(OBJS_B) $(LIBS)
+	$(CC) $(FLAGS) $(OBJS_B) $(LIFLAGS) -o $(NAME_B)
 
 .PHONY: all clean fclean re
